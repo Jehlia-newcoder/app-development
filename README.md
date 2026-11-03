@@ -57,6 +57,8 @@ This project includes a login-protected inventory dashboard for managing product
 
 5. Open `http://localhost/prefi/public/` and log in. Authenticated users can add, edit, and delete products and user accounts. User passwords are never displayed; leave the password blank when editing a user to keep their current password. Existing plaintext passwords are upgraded to hashes after a successful login.
 
+The inventory pages use the free SB Admin 7.0.7 Bootstrap template, downloaded from the [v7.0.7 source archive](https://github.com/StartBootstrap/startbootstrap-sb-admin/archive/refs/tags/v7.0.7.zip). After starting XAMPP, preview the original template at `http://localhost/prefi/public/template-preview/` or open `public/template-preview/index.html` directly. The original template files and MIT license are in `public/template-preview/`; the app uses its locally stored styles and scripts. The template source is [Start Bootstrap SB Admin](https://github.com/StartBootstrap/startbootstrap-sb-admin).
+
 For production, point the web server document root at the project's `public` directory and configure HTTPS.
 
 ## What is CodeIgniter?

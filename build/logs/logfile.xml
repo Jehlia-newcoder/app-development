@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CLI Arguments" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="1.570460">
+    <testsuite name="HealthTest" file="C:\xampp\htdocs\prefi\tests\unit\HealthTest.php" tests="2" assertions="3" errors="0" failures="0" skipped="0" time="1.570460">
+      <testcase name="testIsDefinedAppPath" file="C:\xampp\htdocs\prefi\tests\unit\HealthTest.php" line="12" class="HealthTest" classname="HealthTest" assertions="1" time="1.048676"/>
+      <testcase name="testBaseUrlHasBeenSet" file="C:\xampp\htdocs\prefi\tests\unit\HealthTest.php" line="17" class="HealthTest" classname="HealthTest" assertions="2" time="0.521783"/>
+    </testsuite>
+  </testsuite>
+</testsuites>
