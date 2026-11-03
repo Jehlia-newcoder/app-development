@@ -5,46 +5,48 @@
 $errors = session()->getFlashdata('errors') ?? [];
 $isEdit = $product !== null;
 ?>
-<div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
-    <h1 class="mt-4"><?= $isEdit ? 'Edit product' : 'Add product' ?></h1>
-    <a class="btn btn-outline-secondary" href="<?= site_url('products') ?>">Back to products</a>
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="<?= site_url('dashboard') ?>"><em class="fa fa-home"></em></a></li>
+        <li><a href="<?= site_url('products') ?>">Products</a></li>
+        <li class="active"><?= $isEdit ? 'Edit' : 'Add' ?></li>
+    </ol>
 </div>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="<?= site_url('dashboard') ?>">Dashboard</a></li>
-    <li class="breadcrumb-item"><a href="<?= site_url('products') ?>">Products</a></li>
-    <li class="breadcrumb-item active"><?= $isEdit ? 'Edit' : 'Add' ?></li>
-</ol>
-<section class="card mb-4">
-    <div class="card-header">
-        <i class="fas fa-box-open me-1" aria-hidden="true"></i>
-        Product details
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header"><?= $isEdit ? 'Edit product' : 'Add product' ?></h1>
     </div>
-    <div class="card-body">
-        <form method="post" action="<?= $isEdit ? site_url('products/' . $product['product_id']) : site_url('products') ?>">
-            <?= csrf_field() ?>
-            <div class="form-floating mb-3">
-                <input class="form-control <?= isset($errors['product_name']) ? 'is-invalid' : '' ?>" id="product_name" name="product_name" type="text" placeholder="Product name" maxlength="255" value="<?= esc(old('product_name', $product['product_name'] ?? '')) ?>" required>
-                <label for="product_name">Product name</label>
-                <?php if (isset($errors['product_name'])): ?><div class="invalid-feedback d-block"><?= esc($errors['product_name']) ?></div><?php endif ?>
-            </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-heading"><em class="fa fa-cubes"></em> Product details</div>
+            <div class="panel-body">
+                <form method="post" action="<?= $isEdit ? site_url('products/' . $product['product_id']) : site_url('products') ?>">
+                    <?= csrf_field() ?>
+                    <div class="form-group <?= isset($errors['product_name']) ? 'has-error' : '' ?>">
+                        <label for="product_name">Product name</label>
+                        <input class="form-control" id="product_name" name="product_name" type="text" maxlength="255" value="<?= esc(old('product_name', $product['product_name'] ?? '')) ?>" required>
+                        <?php if (isset($errors['product_name'])): ?><p class="help-block"><?= esc($errors['product_name']) ?></p><?php endif ?>
+                    </div>
 
-            <div class="form-floating mb-3">
-                <input class="form-control <?= isset($errors['price']) ? 'is-invalid' : '' ?>" id="price" name="price" type="number" placeholder="Price" min="0" step="0.01" value="<?= esc(old('price', $product['price'] ?? '')) ?>" required>
-                <label for="price">Price</label>
-                <?php if (isset($errors['price'])): ?><div class="invalid-feedback d-block"><?= esc($errors['price']) ?></div><?php endif ?>
-            </div>
+                    <div class="form-group <?= isset($errors['price']) ? 'has-error' : '' ?>">
+                        <label for="price">Price</label>
+                        <input class="form-control" id="price" name="price" type="number" min="0" step="0.01" value="<?= esc(old('price', $product['price'] ?? '')) ?>" required>
+                        <?php if (isset($errors['price'])): ?><p class="help-block"><?= esc($errors['price']) ?></p><?php endif ?>
+                    </div>
 
-            <div class="form-floating mb-3">
-                <input class="form-control <?= isset($errors['quantity']) ? 'is-invalid' : '' ?>" id="quantity" name="quantity" type="number" placeholder="Quantity" min="0" step="1" value="<?= esc(old('quantity', $product['quantity'] ?? '')) ?>" required>
-                <label for="quantity">Quantity</label>
-                <?php if (isset($errors['quantity'])): ?><div class="invalid-feedback d-block"><?= esc($errors['quantity']) ?></div><?php endif ?>
-            </div>
+                    <div class="form-group <?= isset($errors['quantity']) ? 'has-error' : '' ?>">
+                        <label for="quantity">Quantity</label>
+                        <input class="form-control" id="quantity" name="quantity" type="number" min="0" step="1" value="<?= esc(old('quantity', $product['quantity'] ?? '')) ?>" required>
+                        <?php if (isset($errors['quantity'])): ?><p class="help-block"><?= esc($errors['quantity']) ?></p><?php endif ?>
+                    </div>
 
-            <div class="d-flex flex-wrap gap-2 mt-4">
-                <button class="btn btn-primary" type="submit"><?= $isEdit ? 'Save changes' : 'Add product' ?></button>
-                <a class="btn btn-secondary" href="<?= site_url('products') ?>">Cancel</a>
+                    <button class="btn btn-primary" type="submit"><?= $isEdit ? 'Save changes' : 'Add product' ?></button>
+                    <a class="btn btn-default" href="<?= site_url('products') ?>">Cancel</a>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
-</section>
+</div>
 <?= $this->endSection() ?>

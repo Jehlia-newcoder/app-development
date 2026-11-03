@@ -1,92 +1,87 @@
-<?php $authenticated = session()->has('user_id'); ?>
+<?php
+$authenticated = session()->has('user_id');
+$currentPath = uri_string();
+?>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= esc($title ?? 'Inventory Dashboard') ?> | Inventory</title>
-    <link href="<?= base_url('template-preview/css/styles.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/lumino/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/lumino/css/font-awesome.min.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/lumino/css/styles.css') ?>" rel="stylesheet">
+    <link href="<?= base_url('assets/lumino/css/app.css') ?>" rel="stylesheet">
 </head>
-<body class="<?= $authenticated ? 'sb-nav-fixed' : 'bg-primary' ?>">
+<body class="<?= $authenticated ? 'app-authenticated' : 'app-guest' ?>">
 <?php if ($authenticated): ?>
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <a class="navbar-brand ps-3" href="<?= site_url('dashboard') ?>">Inventory</a>
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button" aria-label="Toggle navigation">
-            <i class="fas fa-bars" aria-hidden="true"></i>
-        </button>
-        <div class="navbar-nav ms-auto me-3 me-lg-4">
-            <span class="nav-link text-white"><?= esc(session()->get('username')) ?></span>
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="<?= site_url('dashboard') ?>"><span>Inventory</span> Manager</a>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li><span class="navbar-text"><?= esc(session()->get('username')) ?></span></li>
+                    <li>
+                        <form method="post" action="<?= site_url('logout') ?>" class="navbar-form">
+                            <?= csrf_field() ?>
+                            <button class="btn btn-default btn-sm" type="submit">Log out</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <form method="post" action="<?= site_url('logout') ?>" class="me-3 mb-0">
-            <?= csrf_field() ?>
-            <button class="btn btn-outline-light btn-sm" type="submit">Log out</button>
-        </form>
     </nav>
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" aria-label="Main navigation">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Inventory</div>
-                        <a class="nav-link <?= uri_string() === 'dashboard' ? 'active' : '' ?>" href="<?= site_url('dashboard') ?>">
-                            <div class="sb-nav-link-icon"><i class="fas fa-gauge-high" aria-hidden="true"></i></div>
-                            Dashboard
-                        </a>
-                        <a class="nav-link <?= str_starts_with(uri_string(), 'products') ? 'active' : '' ?>" href="<?= site_url('products') ?>">
-                            <div class="sb-nav-link-icon"><i class="fas fa-boxes-stacked" aria-hidden="true"></i></div>
-                            Products
-                        </a>
-                        <a class="nav-link <?= str_starts_with(uri_string(), 'users') ? 'active' : '' ?>" href="<?= site_url('users') ?>">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users" aria-hidden="true"></i></div>
-                            Users
-                        </a>
-                    </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    <?= esc(session()->get('username')) ?>
-                </div>
-            </nav>
+
+    <div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+        <div class="profile-sidebar">
+            <div class="profile-userpic"><i class="fa fa-user-circle fa-3x" aria-hidden="true"></i></div>
+            <div class="profile-usertitle">
+                <div class="profile-usertitle-name"><?= esc(session()->get('username')) ?></div>
+                <div class="profile-usertitle-status"><span class="indicator label-success"></span>Signed in</div>
+            </div>
+            <div class="clear"></div>
         </div>
-        <div id="layoutSidenav_content">
-            <main>
-                <div class="container-fluid px-4 py-4">
-<?php else: ?>
-    <div id="layoutAuthentication">
-        <div id="layoutAuthentication_content">
-            <main>
-                <div class="container-fluid px-4 py-4">
-<?php endif ?>
-                    <?php if ($message = session()->getFlashdata('success')): ?>
-                        <div class="alert alert-success" role="status"><?= esc($message) ?></div>
-                    <?php endif ?>
-                    <?php if ($message = session()->getFlashdata('error')): ?>
-                        <div class="alert alert-danger" role="alert"><?= esc($message) ?></div>
-                    <?php endif ?>
-                    <?= $this->renderSection('content') ?>
-                </div>
-            </main>
-<?php if ($authenticated): ?>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="small text-muted">Inventory Manager &middot; Built with SB Admin and Bootstrap</div>
-                </div>
-            </footer>
-        </div>
+        <ul class="nav menu">
+            <li class="<?= $currentPath === 'dashboard' ? 'active' : '' ?>">
+                <a href="<?= site_url('dashboard') ?>"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a>
+            </li>
+            <li class="<?= str_starts_with($currentPath, 'products') ? 'active' : '' ?>">
+                <a href="<?= site_url('products') ?>"><em class="fa fa-cubes">&nbsp;</em> Products</a>
+            </li>
+            <li class="<?= str_starts_with($currentPath, 'users') ? 'active' : '' ?>">
+                <a href="<?= site_url('users') ?>"><em class="fa fa-users">&nbsp;</em> Users</a>
+            </li>
+        </ul>
     </div>
+
+    <div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 <?php else: ?>
-        </div>
-        <div id="layoutAuthentication_footer">
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="small text-muted">Inventory Manager &middot; Built with SB Admin and Bootstrap</div>
-                </div>
-            </footer>
-        </div>
-    </div>
+    <div class="container">
 <?php endif ?>
-<script src="<?= base_url('template-preview/js/bootstrap.bundle.min.js') ?>"></script>
-<script src="<?= base_url('template-preview/js/fontawesome-all.js') ?>"></script>
-<script src="<?= base_url('template-preview/js/scripts.js') ?>"></script>
+        <?php if ($message = session()->getFlashdata('success')): ?>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="alert alert-success" role="status"><?= esc($message) ?></div>
+                </div>
+            </div>
+        <?php endif ?>
+        <?php if ($message = session()->getFlashdata('error')): ?>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="alert alert-danger" role="alert"><?= esc($message === 'The action you requested is not allowed.' ? 'This form expired or was already submitted. Please review and try again.' : $message) ?></div>
+                </div>
+            </div>
+        <?php endif ?>
+        <?= $this->renderSection('content') ?>
+    </div>
+<script src="<?= base_url('assets/lumino/js/jquery-1.11.1.min.js') ?>"></script>
+<script src="<?= base_url('assets/lumino/js/bootstrap.min.js') ?>"></script>
+<script src="<?= base_url('assets/lumino/js/custom.js?v=2') ?>"></script>
 </body>
 </html>

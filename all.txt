@@ -10,6 +10,10 @@ app/Config/Routes.php
 app/Config/Filters.php
     Registers the authentication filter and enables CSRF protection for forms.
 
+app/Config/Security.php
+    Keeps CSRF protection enabled and redirects rejected submissions back to
+    the previous page so users can retry instead of seeing a full exception page.
+
 app/Controllers/BaseController.php
     Loads the form and URL helpers used by the application pages.
 
@@ -36,26 +40,44 @@ app/Controllers/Users.php
 Views
 -----
 app/Views/layouts/main.php
-    Shared page layout, navigation, styles, and success/error messages.
+    Shared Lumino-based layout, responsive navigation, local template assets,
+    and success/error messages, including a friendly message for expired forms.
 
 app/Views/auth/login.php
-    Login form.
+    Login form with CSRF protection and validation feedback.
 
 app/Views/dashboard.php
-    Dashboard with links and counts for products and users.
+    Dashboard with product and user summary cards and catalog shortcuts.
 
 app/Views/products/index.php
-    Product list with edit and delete controls.
+    Styled product catalog with item count, responsive table, and edit/delete
+    controls.
 
 app/Views/products/form.php
     Product add/edit form with validation feedback.
 
 app/Views/users/index.php
-    User list with edit and delete controls.
+    Styled user list with account count, responsive table, and edit/delete
+    controls.
 
 app/Views/users/form.php
     User add/edit form; passwords are never displayed, and a blank edit password
     keeps the existing password.
+
+Local Lumino template assets
+----------------------------
+public/assets/lumino/css/
+    Bootstrap 3, Font Awesome, Lumino theme styles, and application-specific
+    responsive styling.
+
+public/assets/lumino/js/
+    jQuery, Bootstrap behavior, and Lumino scripts.
+
+public/assets/lumino/fonts/
+    Font Awesome and Bootstrap Glyphicons web fonts used by the interface.
+
+public/assets/lumino/MediaLoot_License_Agreement.pdf
+    License agreement provided with the local Lumino template.
 
 Local setup and documentation
 -----------------------------
