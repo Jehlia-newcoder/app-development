@@ -1,0 +1,69 @@
+Files added or edited for the inventory application
+===================================================
+
+Configuration and routing
+-------------------------
+app/Config/Routes.php
+    Defines the login, logout, dashboard, products, and users routes, including
+    authentication protection for private pages.
+
+app/Config/Filters.php
+    Registers the authentication filter and enables CSRF protection for forms.
+
+app/Controllers/BaseController.php
+    Loads the form and URL helpers used by the application pages.
+
+app/Filters/AuthFilter.php
+    Redirects visitors who are not logged in to the login page.
+
+Controllers
+-----------
+app/Controllers/Auth.php
+    Displays the login page, authenticates users, upgrades legacy plaintext
+    passwords to hashes after successful login, and logs users out.
+
+app/Controllers/Dashboard.php
+    Displays the dashboard and product/user totals.
+
+app/Controllers/Products.php
+    Lists products and handles validated product creation, editing, and deletion.
+
+app/Controllers/Users.php
+    Lists users without exposing passwords and handles account creation, editing,
+    and deletion. Stores passwords as hashes and protects the active and last
+    remaining accounts from deletion.
+
+Views
+-----
+app/Views/layouts/main.php
+    Shared page layout, navigation, styles, and success/error messages.
+
+app/Views/auth/login.php
+    Login form.
+
+app/Views/dashboard.php
+    Dashboard with links and counts for products and users.
+
+app/Views/products/index.php
+    Product list with edit and delete controls.
+
+app/Views/products/form.php
+    Product add/edit form with validation feedback.
+
+app/Views/users/index.php
+    User list with edit and delete controls.
+
+app/Views/users/form.php
+    User add/edit form; passwords are never displayed, and a blank edit password
+    keeps the existing password.
+
+Local setup and documentation
+-----------------------------
+.env
+    Local CodeIgniter environment, base URL, and products_db MySQL connection
+    settings. Adjust the database password here if your local MySQL account uses
+    one. Do not share or commit this file.
+
+README.md
+    Documents database/table setup, Composer dependencies, local environment
+    configuration, first-user creation, and how to open the application.
